@@ -167,7 +167,9 @@
     },
     "/posts": {
       "get": {
-        "tags": ["Posts"],
+        "tags": [
+          "Posts"
+        ],
         "summary": "Listar todos os posts",
         "responses": {
           "200": {
@@ -179,10 +181,20 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "id": { "type": "integer" },
-                      "description": { "type": "string" },
-                      "photo": { "type": "string","format": "base64", "nullable": true },
-                      "id_user": { "type": "integer" }
+                      "id": {
+                        "type": "integer"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "photo": {
+                        "type": "string",
+                        "format": "base64",
+                        "nullable": true
+                      },
+                      "id_user": {
+                        "type": "integer"
+                      }
                     }
                   }
                 }
@@ -192,8 +204,83 @@
         }
       },
       "post": {
-        "tags": ["Posts"],
+        "tags": [
+          "Posts"
+        ],
         "summary": "Criar um novo post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "base64",
+                    "nullable": true
+                  },
+                  "id_user": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "description",
+                  "id_user"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post criado com sucesso"
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "tags": ["Posts"],
+        "summary": "Obter post por ID",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": { "type": "integer" },
+          "required": true,
+          "description": "ID do post"
+        }],
+        "responses": {
+          "200": {
+            "description": "Detalhes do post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "description": { "type": "string" },
+                    "photo": { "type": "string","format": "base64", "nullable": true },
+                    "id_user": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Posts"],
+        "summary": "Atualizar um post existente",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": { "type": "integer" },
+          "required": true,
+          "description": "ID do post"
+        }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -203,15 +290,30 @@
                   "description": { "type": "string" },
                   "photo": { "type": "string","format": "base64", "nullable": true },
                   "id_user": { "type": "integer" }
-                },
-                "required": ["description", "id_user"]
+                }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "Post criado com sucesso"
+          "200": {
+            "description": "Post atualizado com sucesso"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Posts"],
+        "summary": "Deletar um post existente",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": { "type": "integer" },
+          "required": true,
+          "description": "ID do post"
+        }],
+        "responses": {
+          "204": {
+            "description": "Post deletado com sucesso"
           }
         }
       }
